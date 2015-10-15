@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ani.utils</groupId>
+    <artifactId>ani-utils</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>ani-utils</name>
+
+    <description>Ani-utils is a module that defines all the exceptions and several functions might be used generally.</description>
+    <properties>
+        <java-version>1.7</java-version>
+        <org.springframework-version>4.0.5.RELEASE</org.springframework-version>
+        <slf4j-version>1.7.12</slf4j-version>
+        <jackson-version>2.4.0</jackson-version>
+        <hibernate-version>4.3.5.Final</hibernate-version>
+        <querydsl.version>2.9.0</querydsl.version>
+        <activemq-version>5.7.0</activemq-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    <!-- developers -->
+    <developers>
+        <developer>
+            <id>yqz411</id>
+            <name>Yeh, Ching-zhou</name>
+            <timezone>8</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <!--spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+    </dependencies>
+</project>
