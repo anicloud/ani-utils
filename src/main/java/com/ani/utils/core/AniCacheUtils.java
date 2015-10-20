@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by yeh on 15-9-26.
  */
 @Service
-public class CacheUtils {
+public class AniCacheUtils {
 
     public String getRedisKey(String... parts) {
         return StringUtils.join(parts, ':');
