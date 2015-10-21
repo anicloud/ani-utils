@@ -32,68 +32,31 @@ public class AniSecureUtils {
             'e',
             'f'
     };
+    public static String getHexStringFromByte(byte[] hashByte){
+        int length = hashByte.length;
+        char[] result = new char[length * 2];
+        int k = 0;
+        for (int i = 0; i < length; i++) {
+            byte byte0 = hashByte[i];
+            result[k++] = hexDigits[byte0 >>> 4 & 0xf];
+            result[k++] = hexDigits[byte0 & 0xf];
+        }
+        return String.valueOf(result);
+    }
+
 
     public static Long generateTimeMillis() {
         return System.currentTimeMillis();
     }
 
-    private static void checkTimestampLegality(Long timestamp) throws AniAuthException {
-        if (System.currentTimeMillis() - timestamp > secureTimeoutMills) {
-            throw new AniAuthException("AUTHENTICATION_REQUEST_OUT_OF_TIME");
-        }
+    public static Long generateRandomUniqueIdLong() {
+        Random random = new Random(System.currentTimeMillis());
+        return random.nextLong();
     }
 
-    public static String generateRequestHash(String requestMessage, Long requestTimestamp, String secretHash) {
-        return generateHMACString(secretHash, requestMessage + String.valueOf(requestTimestamp));
-    }
-
-    public static String generateSecretHash(String firstHashKey, String message) {
-        return generateHMACString(firstHashKey, message);
-    }
-
-    public static String generateSecretToken(String specificMessage) {
-        return generateHMACString(
-                String.valueOf(generateRandomUniqueId()) + "Anicloud",
-                specificMessage
-        );
-    }
-//    private static void checkTimeout(Long timestamp){
-//        Long timeSpan = System.currentTimeMillis() - timestamp;
-//        if(timeSpan > secureTimeoutMills || timeSpan < 0){
-//            throw new AniAuthException("REQUEST_TIME_OUT");
-//        }
-//    }
-
-    private static void checkRequestKeyLegality(String requestHashKey, String requestMessage, Long timestamp, String secretHash) throws AniAuthException {
-//        String requestHmacStr = generateHMACString(secretHash, requestMessage + String.valueOf(timestamp));
-        String requestHmacStr = generateRequestHash(requestMessage, timestamp, secretHash);
-        if (!StringUtils.equals(requestHmacStr, requestHashKey)) {
-            throw new AniAuthException("REQUEST_ILLEGAL");
-        }
-    }
-
-//    private static void checkSecretKeyLegality(String requestHashKey, String requestMessage, String secretHash) throws AniAuthException {
-////        String secretHmacStr = generateHMACString(requestHashKey, requestMessage);
-//        String secretHmacStr = generateSecretHash(requestHashKey, requestMessage);
-//        if(!StringUtils.equals(secretHmacStr, secretHash.trim())){
-//            throw new AniAuthException("PASSWORD_OR_TOKEN_ILLEGAL");
-//        }
-//    }
-
-    public static void checkAuthMessageLegality(String requestHashKey, String requestMessage, Long timestamp, String secretHash) throws AniAuthException {
-        checkTimestampLegality(timestamp);
-        checkRequestKeyLegality(requestHashKey, requestMessage, timestamp, secretHash);
-//        checkSecretKeyLegality(requestHashKey, requestMessage, secretHash);
-    }
-
-    public static Long generateRandomUniqueId() {
-        Long currentMillis = System.currentTimeMillis();
-
-        Random random = new Random();
-        Long currentRandom = random.nextLong();
-
-        Long randomNumber = currentMillis + currentRandom;
-        return randomNumber;
+    public static Integer generateRandomUniqueIdInteger() {
+        Random random = new Random(System.currentTimeMillis());
+        return random.nextInt();
     }
 
     public static byte[] generateHashByte(String algorithm, byte[] srcByte) throws AniRuleException {
@@ -142,16 +105,7 @@ public class AniSecureUtils {
             Mac mac = Mac.getInstance(secretKey.getAlgorithm());
             mac.init(secretKey);
             byte[] hmac = mac.doFinal(message.getBytes());
-
-            int length = hmac.length;
-            char[] result = new char[length * 2];
-            int k = 0;
-            for (int i = 0; i < length; i++) {
-                byte byte0 = hmac[i];
-                result[k++] = hexDigits[byte0 >>> 4 & 0xf];
-                result[k++] = hexDigits[byte0 & 0xf];
-            }
-            return String.valueOf(result);
+            return getHexStringFromByte(hmac);
         } catch (Exception e) {
 //            Logger.error(e.getMessage());
             return null;
