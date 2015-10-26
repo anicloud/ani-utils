@@ -7,7 +7,8 @@
     <packaging>jar</packaging>
     <name>ani-utils</name>
 
-    <description>Ani-utils is a module that defines all the exceptions and several functions might be used generally.</description>
+    <description>Ani-utils is a module that defines all the exceptions and several functions might be used generally.
+    </description>
     <properties>
         <java-version>1.7</java-version>
         <org.springframework-version>4.0.5.RELEASE</org.springframework-version>

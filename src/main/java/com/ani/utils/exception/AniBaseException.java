@@ -8,26 +8,26 @@ import java.util.logging.Logger;
  * User: yeqingzhou
  * Date: 12-9-28
  */
-public class AniBaseException extends Exception{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5854217260226084617L;
-	protected Logger logger = Logger.getLogger("AniException");
+public class AniBaseException extends Exception {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5854217260226084617L;
+    protected Logger logger = Logger.getLogger("AniException");
 
-    public AniBaseException(){
+    public AniBaseException() {
         super("ANI_BASE_EXCEPTION");
         this.logger = Logger.getLogger("AniException");
         traceException();
     }
 
-    public AniBaseException(String msg, String logInfo){
+    public AniBaseException(String msg, String logInfo) {
         super(msg);
         this.logger = Logger.getLogger(logInfo);
         traceException();
     }
 
-    private void traceException(){
+    private void traceException() {
         printStackTrace();
         StringWriter trace = new StringWriter();
         printStackTrace(new PrintWriter(trace));

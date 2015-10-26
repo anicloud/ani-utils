@@ -25,7 +25,7 @@ public enum AniPattern {
         this.pattern = pattern;
     }
 
-    public String getPattern(){
+    public String getPattern() {
         return this.pattern;
     }
 }

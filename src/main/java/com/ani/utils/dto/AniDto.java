@@ -19,11 +19,11 @@ public class AniDto implements Serializable {
     public static void batchCheckFields(List<? extends AniDto> aniDtoList) throws AniRuleException {
         StringBuilder finalMsg = new StringBuilder("");
         Boolean isError = false;
-        for(AniDto oneDto: aniDtoList){
+        for (AniDto oneDto : aniDtoList) {
             try {
                 oneDto.checkFields();
             } catch (AniRuleException e) {
-                if(isError){
+                if (isError) {
                     finalMsg.append("\n");
                 } else {
                     isError = true;
@@ -31,15 +31,15 @@ public class AniDto implements Serializable {
                 finalMsg.append(e.getMessage());
             }
         }
-        if(isError){
+        if (isError) {
             throw new AniRuleException(finalMsg.toString());
         }
     }
 
-    public void checkFieldsByName(String[] fieldsName){
+    public void checkFieldsByName(String[] fieldsName) {
         Class curClass = this.getClass();
         Field[] fields = new Field[fieldsName.length];
-        for(int oneFieldNameIdx = 0; oneFieldNameIdx < fieldsName.length; oneFieldNameIdx++){
+        for (int oneFieldNameIdx = 0; oneFieldNameIdx < fieldsName.length; oneFieldNameIdx++) {
             try {
                 fields[oneFieldNameIdx] = curClass.getField(fieldsName[oneFieldNameIdx]);
             } catch (NoSuchFieldException e) {
@@ -57,10 +57,10 @@ public class AniDto implements Serializable {
         boolean isError = false;
         StringBuilder notification = new StringBuilder("REQUIRED_FIELDS_EMPTY:");
         try {
-            for(Field oneField: fields){
+            for (Field oneField : fields) {
                 boolean isRequired = (oneField.getAnnotation(AniRequiredField.class) != null);
                 boolean isFieldNull = (oneField.get(this) == null);
-                if(isRequired && isFieldNull){
+                if (isRequired && isFieldNull) {
                     isError = true;
                     notification.append(
                             String.format(" [%s]", oneField.getName())
@@ -70,7 +70,7 @@ public class AniDto implements Serializable {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        if(isError){
+        if (isError) {
             throw new AniRuleException(notification.toString());
         }
     }
@@ -79,12 +79,12 @@ public class AniDto implements Serializable {
         boolean isError = false;
         StringBuilder notification = new StringBuilder("FIELDS_FORMAT_ERROR:");
         try {
-            for(Field oneField: fields){
+            for (Field oneField : fields) {
                 AniFieldFormat fieldFormat = oneField.getAnnotation(AniFieldFormat.class);
                 boolean isFormatted = (fieldFormat != null);
                 String fieldValue = String.valueOf(oneField.get(this));
                 boolean isMatched = (isFormatted && fieldValue != null && fieldValue.matches(fieldFormat.pattern().getPattern()));
-                if(isFormatted && !isMatched){
+                if (isFormatted && !isMatched) {
                     isError = true;
                     notification.append(
                             String.format(" [%s]", oneField.getName())
@@ -94,7 +94,7 @@ public class AniDto implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(isError){
+        if (isError) {
             throw new AniRuleException(notification.toString());
         }
     }

@@ -17,16 +17,16 @@ public class AniCacheUtils {
         return StringUtils.join(parts, ':');
     }
 
-    public byte[] longToByte(Long longObj){
+    public byte[] longToByte(Long longObj) {
         return ByteBuffer.allocate(Long.SIZE).putLong(longObj.longValue()).array();
     }
 
-    public Set<byte[]> getByteSetFromString(Set<String> strSet){
-        if(strSet == null || strSet.size() == 0){
+    public Set<byte[]> getByteSetFromString(Set<String> strSet) {
+        if (strSet == null || strSet.size() == 0) {
             return new HashSet<byte[]>(1, 1f);
         }
         Set<byte[]> byteSet = new HashSet<byte[]>(strSet.size(), 1f);
-        for(String oneStr: strSet){
+        for (String oneStr : strSet) {
             byteSet.add(oneStr.getBytes());
         }
         return byteSet;

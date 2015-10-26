@@ -32,7 +32,8 @@ public class AniSecureUtils {
             'e',
             'f'
     };
-    public static String getHexStringFromByte(byte[] hashByte){
+
+    public static String getHexStringFromByte(byte[] hashByte) {
         int length = hashByte.length;
         char[] result = new char[length * 2];
         int k = 0;

@@ -6,15 +6,15 @@ package com.ani.utils.exception;
  */
 public class AniAuthException extends AniBaseException {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6835080361834780463L;
+     *
+     */
+    private static final long serialVersionUID = -6835080361834780463L;
 
-	public AniAuthException(){
+    public AniAuthException() {
         super("ANI_AUTH_FAILED", "AniAuthException");
     }
 
-    public AniAuthException(String msg){
+    public AniAuthException(String msg) {
         super(msg, "AniAuthException");
     }
 }
