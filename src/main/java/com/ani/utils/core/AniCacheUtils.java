@@ -31,4 +31,8 @@ public class AniCacheUtils {
         }
         return byteSet;
     }
+
+    public String getLongStrExp(Long longNum){
+        return new String(longToByte(longNum));
+    }
 }
