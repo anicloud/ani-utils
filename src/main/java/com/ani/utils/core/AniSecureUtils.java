@@ -51,12 +51,12 @@ public class AniSecureUtils {
     }
 
     public static Long generateRandomUniqueIdLong() {
-        Random random = new Random(System.currentTimeMillis());
+        Random random = new Random(System.currentTimeMillis() + new Random().nextLong());
         return random.nextLong();
     }
 
     public static Integer generateRandomUniqueIdInteger() {
-        Random random = new Random(System.currentTimeMillis());
+        Random random = new Random(System.currentTimeMillis() + new Random().nextInt());
         return random.nextInt();
     }
 
