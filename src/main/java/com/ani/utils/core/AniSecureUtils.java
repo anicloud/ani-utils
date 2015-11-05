@@ -1,8 +1,7 @@
 package com.ani.utils.core;
 
-import com.ani.utils.exception.AniAuthException;
 import com.ani.utils.exception.AniRuleException;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -74,16 +73,20 @@ public class AniSecureUtils {
 
     public static String generateHashString(String algorithm, String src) throws AniRuleException {
         byte[] srcByte = src.getBytes();
-        StringBuilder finalMD5 = new StringBuilder();
-        byte generatedMD5Byte[] = generateHashByte(algorithm, srcByte);
-        for (byte curByte : generatedMD5Byte) {
-            finalMD5.append(hexDigits[curByte >>> 4 & 0xf]);
-            finalMD5.append(hexDigits[curByte & 0xf]);
+        StringBuilder finalHash = new StringBuilder();
+        byte generatedHashByte[] = generateHashByte(algorithm, srcByte);
+        for (byte curByte : generatedHashByte) {
+            finalHash.append(hexDigits[curByte >>> 4 & 0xf]);
+            finalHash.append(hexDigits[curByte & 0xf]);
         }
-        return finalMD5.toString();
+        return finalHash.toString();
     }
 
-    public static byte[] generateHmacByte(byte[] key, byte[] message, String hashAlgorithm) throws AniRuleException {
+    public static byte[] generateMd5HashByte(byte[] srcByte) throws AniRuleException {
+        return generateHashByte("md5", srcByte);
+    }
+
+    public static byte[] generateHMACByte(byte[] key, byte[] message, String hashAlgorithm) throws AniRuleException {
         SecretKey secretKey = new SecretKeySpec(key, hashAlgorithm);
         Mac mac = null;
         try {
@@ -98,6 +101,10 @@ public class AniSecureUtils {
             throw new AniRuleException("KEY_IS_INVALID");
         }
 
+    }
+
+    public static byte[] generateHMACByteMd5(byte[] key, byte[] message) throws AniRuleException {
+        return generateHMACByte(key, message, "HmacMD5");
     }
 
     public static String generateHMACString(String key, String message) {
