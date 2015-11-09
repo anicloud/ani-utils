@@ -17,10 +17,6 @@ public class AniCacheUtils {
         return StringUtils.join(parts, ':');
     }
 
-    public byte[] longToByte(Long longObj) {
-        return ByteBuffer.allocate(Long.SIZE).putLong(longObj.longValue()).array();
-    }
-
     public Set<byte[]> getByteSetFromString(Set<String> strSet) {
         if (strSet == null || strSet.size() == 0) {
             return new HashSet<byte[]>(1, 1f);
@@ -33,6 +29,6 @@ public class AniCacheUtils {
     }
 
     public String getLongStrExp(Long longNum){
-        return new String(longToByte(longNum));
+        return new String(AniGeneralUtils.longToByte(longNum));
     }
 }

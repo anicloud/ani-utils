@@ -44,19 +44,18 @@ public class AniSecureUtils {
         return String.valueOf(result);
     }
 
-
     public static Long generateTimeMillis() {
         return System.currentTimeMillis();
     }
 
     public static Long generateRandomUniqueIdLong() {
         Random random = new Random(System.currentTimeMillis() + new Random().nextLong());
-        return random.nextLong();
+        return Math.abs(random.nextLong());
     }
 
     public static Integer generateRandomUniqueIdInteger() {
         Random random = new Random(System.currentTimeMillis() + new Random().nextInt());
-        return random.nextInt();
+        return Math.abs(random.nextInt());
     }
 
     public static byte[] generateHashByte(String algorithm, byte[] srcByte) throws AniRuleException {
@@ -103,8 +102,14 @@ public class AniSecureUtils {
 
     }
 
-    public static byte[] generateHMACByteMd5(byte[] key, byte[] message) throws AniRuleException {
-        return generateHMACByte(key, message, "HmacMD5");
+    public static byte[] generateHMACByteMd5(byte[] key, byte[] message) {
+        byte[] hmacByteMd5 = null;
+        try {
+            hmacByteMd5 = generateHMACByte(key, message, "HmacMD5");
+        } catch (AniRuleException e) {
+            e.printStackTrace();
+        }
+        return hmacByteMd5;
     }
 
     public static String generateHMACString(String key, String message) {
@@ -118,5 +123,9 @@ public class AniSecureUtils {
 //            Logger.error(e.getMessage());
             return null;
         }
+    }
+
+    public static byte[] generateMd5Token(byte[] key) {
+        return generateHMACByteMd5(key, AniGeneralUtils.longToByte(generateRandomUniqueIdLong()));
     }
 }

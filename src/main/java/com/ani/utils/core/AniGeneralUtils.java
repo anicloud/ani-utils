@@ -4,6 +4,7 @@ import com.ani.utils.exception.AniAuthException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -99,4 +100,9 @@ public class AniGeneralUtils {
     public static void stringsEqual(String string1, String string2, String errorNotification) throws AniAuthException {
         if (!StringUtils.equals(string1.trim(), string2.trim())) throw new AniAuthException(errorNotification);
     }
+
+    public static byte[] longToByte(Long longObj) {
+        return ByteBuffer.allocate(Long.SIZE).putLong(longObj.longValue()).array();
+    }
+
 }
