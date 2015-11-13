@@ -20,7 +20,7 @@ public class AniGeneralUtils {
     }
 
     public static Boolean isCollectionEmpty(Collection oneCol) {
-        return (oneCol == null || oneCol.isEmpty());
+        return (oneCol == null || oneCol.isEmpty() || oneCol.size() < 1);
     }
 
     public static Map deleteEmptyMapElements(Map srcMap) {
