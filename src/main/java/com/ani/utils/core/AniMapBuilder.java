@@ -14,6 +14,14 @@ public class AniMapBuilder<K, V> {
         this.resultMap = new HashMap<K, V>();
     }
 
+    public AniMapBuilder(int initCapacity) {
+        this.resultMap = new HashMap<K, V>(initCapacity);
+    }
+
+    public AniMapBuilder(int initCapacity, float loadFactor) {
+        this.resultMap = new HashMap<K, V>(initCapacity, loadFactor);
+    }
+
     public AniMapBuilder<K, V> put(K key, V value) {
         if (value != null
                 && !value.equals(0L) && !value.equals(0)) {

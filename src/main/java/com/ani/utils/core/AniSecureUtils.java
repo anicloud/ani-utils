@@ -128,4 +128,11 @@ public class AniSecureUtils {
     public static byte[] generateMd5Token(byte[] key) {
         return generateHMACByteMd5(key, AniGeneralUtils.longToByte(generateRandomUniqueIdLong()));
     }
+
+    public static byte[] generateRequestCode(Long timestamp, byte[] token) {
+        return generateHMACByteMd5(
+                AniGeneralUtils.longToByte(timestamp),
+                token
+        );
+    }
 }

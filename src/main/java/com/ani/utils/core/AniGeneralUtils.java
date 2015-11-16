@@ -1,14 +1,12 @@
 package com.ani.utils.core;
 
 import com.ani.utils.exception.AniAuthException;
+import com.ani.utils.exception.AniRuleException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AniGeneralUtils {
 
@@ -105,4 +103,16 @@ public class AniGeneralUtils {
         return ByteBuffer.allocate(Long.SIZE).putLong(longObj.longValue()).array();
     }
 
+    public static <T> Map<ByteBuffer, T> fromByteToByteBufferMap(Map<byte[], T> byteMap){
+        if(byteMap == null || byteMap.size() < 1){
+            return new HashMap<ByteBuffer, T>(1);
+        }
+        Map<ByteBuffer, T> resultByteBufferMap = new HashMap<ByteBuffer, T>(1);
+        for(byte[] oneByteKey: byteMap.keySet()){
+            resultByteBufferMap.put(
+                    ByteBuffer.wrap(oneByteKey),
+                    byteMap.get(oneByteKey));
+        }
+        return resultByteBufferMap;
+    }
 }
