@@ -1,5 +1,6 @@
 package com.ani.utils.dto;
 
+import com.ani.utils.core.AniGeneralUtils;
 import com.ani.utils.exception.AniRuleException;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class AniDto implements Serializable {
     }
 
     public static void batchCheckFields(List<? extends AniDto> aniDtoList) throws AniRuleException {
+        if(AniGeneralUtils.isCollectionEmpty(aniDtoList)) throw new AniRuleException("DTOS_ARE_REQUIRED");
         StringBuilder finalMsg = new StringBuilder("");
         Boolean isError = false;
         for (AniDto oneDto : aniDtoList) {
