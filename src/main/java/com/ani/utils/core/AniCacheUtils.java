@@ -10,14 +10,13 @@ import java.util.Set;
 /**
  * Created by yeh on 15-9-26.
  */
-@Service
 public class AniCacheUtils {
 
-    public String getRedisKey(String... parts) {
+    public static String getRedisKey(String... parts) {
         return StringUtils.join(parts, ':');
     }
 
-    public Set<byte[]> getByteSetFromString(Set<String> strSet) {
+    public static Set<byte[]> getByteSetFromString(Set<String> strSet) {
         if (strSet == null || strSet.size() == 0) {
             return new HashSet<byte[]>(1, 1f);
         }
@@ -28,7 +27,7 @@ public class AniCacheUtils {
         return byteSet;
     }
 
-    public String getLongStrExp(Long longNum){
+    public static String getLongStrExp(Long longNum){
         return new String(AniGeneralUtils.longToByte(longNum));
     }
 }
