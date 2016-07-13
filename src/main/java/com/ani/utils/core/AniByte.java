@@ -31,12 +31,6 @@ public class AniByte implements Serializable{
         return hashCode;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof AniByte)) return false;
-        return obj.hashCode() == this.hashCode();
-    }
-
     public static <T> Map<AniByte, T> fromByteMap(Map<byte[], T> byteMap){
         if(byteMap == null || byteMap.size() < 1){
             return new HashMap<AniByte, T>(1);
