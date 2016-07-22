@@ -15,6 +15,11 @@ public class AniByte implements Serializable{
         this.bytes = bytes;
     }
 
+    public AniByte(String str) {
+        if(str == null || str.length() < 1) this.bytes = new byte[0];
+        this.bytes = str.getBytes();
+    }
+
     public void setBytes(byte[] bytes){
         this.bytes = bytes;
     }
@@ -29,6 +34,21 @@ public class AniByte implements Serializable{
         for(byte b: this.bytes)
             hashCode = 31 * hashCode + (int)b;
         return hashCode;
+    }
+
+    public boolean equals(Object obj) {
+        AniByte byteObj = (AniByte)obj;
+        return (this.hashCode() == byteObj.hashCode());
+    }
+
+    @Override
+    public String toString(){
+        if(this.bytes == null || this.bytes.length < 1) return "";
+        StringBuilder byteStr = new StringBuilder(this.bytes.length);
+        for(byte oneByte: this.bytes){
+            byteStr.append(oneByte);
+        }
+        return byteStr.toString();
     }
 
     public static <T> Map<AniByte, T> fromByteMap(Map<byte[], T> byteMap){
