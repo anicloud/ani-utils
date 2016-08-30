@@ -8,7 +8,7 @@ import java.util.List;
  * Created by hey on 16-8-22.
  */
 public interface AniSMS{
-    public String registerCheckPhone(String phoneNumber,String codeF,String msg);
+    //public String registerCheckPhone(String phoneNumber,String codeF,String msg);
 
     public Boolean validateCode(String savedCode,String code);
 

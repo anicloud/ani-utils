@@ -12,26 +12,11 @@ import javax.annotation.Resource;
 public class Ani253SMS implements AniSMS {
 
     @Override
-    public String registerCheckPhone(String phoneNumber, String codeF,String msg) {
-        String state = null;
-        try {
-            if (codeF != null) {
-                //send short message
-                String url = AniSMSUtils.sms253url + "account=" + AniSMSUtils.sms253username + "&pswd=" + AniSMSUtils.sms253password + "&mobile="
-                        + phoneNumber + "&msg=" + msg + "&needstatus=true";
-                RestTemplate restTemplate = new RestTemplate();
-                String result = restTemplate.getForObject(url, String.class);
-                state = result.split("\n")[0].split(",")[1];
-            }
-        }catch (DataAccessException e){
-            e.printStackTrace();
-        }
-        return state;
-    }
-
-    @Override
     public Boolean validateCode(String savedCode, String code) {
-        if(savedCode.equals(code)) {
+        if(savedCode == null)
+        {
+            return false;
+        }else if(savedCode.equals(code)) {
             return true;
         }
         else {
