@@ -16,7 +16,8 @@ public class AniBaseException extends JmsException {
      *
      */
     private static final long serialVersionUID = -5854217260226084617L;
-    protected Logger logger = Logger.getLogger("AniException");
+
+    protected transient Logger logger = Logger.getLogger("AniException");
 
     public AniBaseException() {
         super("ANI_BASE_EXCEPTION");
