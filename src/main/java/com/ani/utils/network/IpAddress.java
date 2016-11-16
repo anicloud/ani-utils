@@ -36,7 +36,14 @@ public class IpAddress {
         return ip;
     }
 
-    public static byte[] getAddress() throws UnknownHostException {
-        return InetAddress.getByName(getIpAddress()).getAddress();
+    public static byte[] getAddress() {
+
+        byte[] hostip = new byte[0];
+        try {
+            hostip = InetAddress.getByName(getIpAddress()).getAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return hostip;
     }
 }
