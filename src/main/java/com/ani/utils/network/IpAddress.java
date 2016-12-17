@@ -15,9 +15,9 @@ public class IpAddress {
         String NETWORK_ETH0 = "eth0";
         String NETWORK_ETH1 = "eth1";
         try {
-            Enumeration<NetworkInterface> e1 = (Enumeration<NetworkInterface>) NetworkInterface.getNetworkInterfaces();
-            while (e1.hasMoreElements()) {
-                NetworkInterface ni = e1.nextElement();
+            Enumeration<NetworkInterface> networkInterfaceEnumeration = (Enumeration<NetworkInterface>) NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaceEnumeration.hasMoreElements()) {
+                NetworkInterface ni = networkInterfaceEnumeration.nextElement();
                 //单网卡或者绑定双网卡
                 //TODO 不同系统的适配问题
                 if ((NETWORK_CARD.equals(ni.getName())) || (NETWORK_CARD_BAND.equals(ni.getName())) || NETWORK_WIRE.equals(ni.getName()) || NETWORK_ETH0.equals(ni.getName()) || NETWORK_ETH1.equals(ni.getName())) {
