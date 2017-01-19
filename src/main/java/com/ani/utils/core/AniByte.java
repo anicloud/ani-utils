@@ -11,6 +11,8 @@ public class AniByte implements Serializable{
 
     byte[] bytes;
 
+    public AniByte(){}
+
     public AniByte(byte[] bytes) {
         this.bytes = bytes;
     }
