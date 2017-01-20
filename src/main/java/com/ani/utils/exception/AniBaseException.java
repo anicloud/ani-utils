@@ -1,8 +1,5 @@
 package com.ani.utils.exception;
 
-import org.springframework.jms.JmsException;
-
-import javax.management.remote.JMXServerErrorException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.Logger;
@@ -11,7 +8,7 @@ import java.util.logging.Logger;
  * User: yeqingzhou
  * Date: 12-9-28
  */
-public class AniBaseException extends JmsException {
+public class AniBaseException extends Exception {
     /**
      *
      */
