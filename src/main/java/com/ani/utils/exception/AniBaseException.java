@@ -17,9 +17,7 @@ public class AniBaseException extends Exception {
     protected transient Logger logger = Logger.getLogger("AniException");
 
     public AniBaseException() {
-        super("ANI_BASE_EXCEPTION");
-        this.logger = Logger.getLogger("AniException");
-        traceException();
+        super();
     }
 
     public AniBaseException(String msg, String logInfo) {
