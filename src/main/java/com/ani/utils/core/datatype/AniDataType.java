@@ -36,4 +36,23 @@ public class AniDataType implements Serializable {
     public void setDataType(AniDataPrimitiveTypes dataType) {
         this.dataType = dataType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AniDataType that = (AniDataType) o;
+
+        if (category != that.category) return false;
+        return dataType == that.dataType;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = category != null ? category.hashCode() : 0;
+        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
+        return result;
+    }
 }
