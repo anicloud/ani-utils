@@ -15,8 +15,8 @@ public enum AniDataPrimitiveTypes {
     CHAR(char.class),
     SHORT(Short.class),
     LONG(Long.class),
-    OBJECT(Object.class);
-
+    OBJECT(Object.class),
+    BYTE(Byte.class);
     private final Class dataClass;
 
     AniDataPrimitiveTypes(Class dataClass) {
