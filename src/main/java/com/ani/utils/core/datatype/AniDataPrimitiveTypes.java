@@ -11,7 +11,7 @@ public enum AniDataPrimitiveTypes {
     FLOAT(Float.class),
     STRING(String.class),
     BOOLEAN(Boolean.class),
-    BINARY(byte[].class),
+    BINARY(Byte[].class),
     CHAR(char.class),
     SHORT(Short.class),
     LONG(Long.class),
