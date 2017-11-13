@@ -26,4 +26,5 @@ public class TestCore {
         System.out.println(aniBytes.contains(byteB));
         System.out.println(aniBytes.contains(byteC));
     }
+
 }
