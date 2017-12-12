@@ -46,7 +46,7 @@ public class AniByteUtils {
             case FLOAT:
                 return aniByte.byte2Float();
             case STRING:
-                return aniByte.toString();
+                return new String(aniByte.getBytes());
             case BOOLEAN:
                 return aniByte.byteArray2Boolean();
             case BINARY:
