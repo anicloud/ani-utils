@@ -8,7 +8,24 @@ public class AniRuleException extends AniBaseException {
         super();
     }
 
+    public AniRuleException(Type msg) {
+        super(msg.name(), "AniRuleException");
+    }
+
     public AniRuleException(String msg) {
-        super(msg, "AniRuntimeException");
+        super(msg, "AniRuleException");
+    }
+
+    public enum Type {
+        EMAIL_EXITS,
+        PHONE_EXITS,
+        ACCOUNT_NOT_EXITS,
+        PASSWORD_INCORRECT,
+        TYPE_ERROR,
+        OBJECT_EMPTY,
+        CODE_EXPIRED,
+        PHONE_ERROR,
+        EMAIL_ERROR,
+        CODE_ERROR,
     }
 }

@@ -16,6 +16,7 @@ public enum AniPattern {
     APP_NAME_PATTERN("[^\\p{Punct}]{1,}"),
     API_N_PARAM_NAME_PATTERN("[a-zA-Z0-9]+"),
     API_PARAM_VALUE_PATTERN("[^\\p{Punct}]{1,}"),
+    PHONE_PATTERN("[0-9-]+"),
 
     URL_PATTERN("(http:|https:)//[^[A-Za-z0-9\\\\._\\\\?%&+\\\\\\-=/#:]]*");
 

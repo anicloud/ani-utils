@@ -1,6 +1,5 @@
 package com.ani.utils.dto;
 
-import com.ani.utils.core.AniGeneralUtils;
 import com.ani.utils.exception.AniRuleException;
 
 import java.io.Serializable;
@@ -11,11 +10,6 @@ import java.util.List;
  * Created by yeh on 14-8-24.
  */
 public class AniDto implements Serializable {
-
-    public void checkFields() throws AniRuleException {
-        Field[] fields = this.getClass().getFields();
-        checkFields(fields);
-    }
 
     public static void batchCheckFields(List<? extends AniDto> aniDtoList) throws AniRuleException {
 //        if(AniGeneralUtils.isCollectionEmpty(aniDtoList)) throw new AniRuleException("DTOS_ARE_REQUIRED");
@@ -36,6 +30,16 @@ public class AniDto implements Serializable {
         if (isError) {
             throw new AniRuleException(finalMsg.toString());
         }
+    }
+
+    public static void checkFields(AniDto dto) throws AniRuleException {
+        if (dto == null) throw new AniRuleException(AniRuleException.Type.OBJECT_EMPTY);
+        dto.checkFields();
+    }
+
+    public void checkFields() throws AniRuleException {
+        Field[] fields = this.getClass().getFields();
+        checkFields(fields);
     }
 
     public void checkFieldsByName(String[] fieldsName) {

@@ -11,4 +11,8 @@ public class AniDataException extends AniBaseException {
     public AniDataException(String msg) {
         super(msg, "AniFormatException");
     }
+
+    public enum Type {
+
+    }
 }

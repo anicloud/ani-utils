@@ -111,16 +111,29 @@ public class AniSecureUtils {
         }
         return hmacByteMd5;
     }
-
-    public static String generateHMACString(String key, String message) {
-        SecretKey secretKey = new SecretKeySpec(key.getBytes(), "HmacMD5");
+//
+//    public static String generateHMACString(String key, String message) {
+//        SecretKey secretKey = new SecretKeySpec(key.getBytes(), "HmacMD5");
+//        try {
+//            Mac mac = Mac.getInstance(secretKey.getAlgorithm());
+//            mac.init(secretKey);
+//            byte[] hmac = mac.doFinal(message.getBytes());
+//            return getHexStringFromByte(hmac);
+//        } catch (Exception e) {
+////            Logger.error(e.getMessage());
+//            return null;
+//        }
+//    }
+    public static String generateHMACString(String key,String message){
+        SecretKey secretKey = new SecretKeySpec(key.getBytes(),"HmacSHA256");
         try {
             Mac mac = Mac.getInstance(secretKey.getAlgorithm());
             mac.init(secretKey);
-            byte[] hmac = mac.doFinal(message.getBytes());
+            byte[] hmac=mac.doFinal(message.getBytes());
             return getHexStringFromByte(hmac);
-        } catch (Exception e) {
-//            Logger.error(e.getMessage());
+
+        }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }

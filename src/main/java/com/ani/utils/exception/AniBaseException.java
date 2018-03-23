@@ -32,4 +32,5 @@ public class AniBaseException extends Exception {
         printStackTrace(new PrintWriter(trace));
         logger.severe(trace.toString());
     }
+
 }
