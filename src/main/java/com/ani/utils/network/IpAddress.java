@@ -1,4 +1,4 @@
-package com.ani.utils.network;
+package java.inf.test.octopus.ani.utils.network;
 
 import java.net.*;
 import java.util.Enumeration;

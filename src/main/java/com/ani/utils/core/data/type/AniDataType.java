@@ -1,10 +1,7 @@
-package com.ani.utils.core.datatype;
+package com.ani.utils.core.data.type;
 
 import java.io.Serializable;
 
-/**
- * Created by hey on 17-2-15.
- */
 public class AniDataType implements Serializable {
 
     private static final long serialVersionUID = 2930021334774335010L;
@@ -39,20 +36,16 @@ public class AniDataType implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         AniDataType that = (AniDataType) o;
-
         if (category != that.category) return false;
         return dataType == that.dataType;
-
     }
 
     @Override
     public int hashCode() {
-        int result = category != null ? category.hashCode() : 0;
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
+        int result = category != null ? category.ordinal() : 0;
+        result = (result << 16) + (dataType != null ? dataType.ordinal() : 0);
         return result;
     }
 }

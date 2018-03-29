@@ -3,8 +3,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
-
 /**
  * Created by hey on 16-8-22.
  */

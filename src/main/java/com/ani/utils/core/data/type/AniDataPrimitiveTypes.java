@@ -1,4 +1,4 @@
-package com.ani.utils.core.datatype;
+package com.ani.utils.core.data.type;
 
 import com.ani.utils.exception.AniRuleException;
 
@@ -15,8 +15,8 @@ public enum AniDataPrimitiveTypes {
     CHAR(char.class),
     SHORT(Short.class),
     LONG(Long.class),
-    OBJECT(Object.class),
     BYTE(Byte.class);
+
     private final Class dataClass;
 
     AniDataPrimitiveTypes(Class dataClass) {

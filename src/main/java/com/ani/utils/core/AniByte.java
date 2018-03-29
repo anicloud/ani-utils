@@ -1,8 +1,5 @@
 package com.ani.utils.core;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
-import javax.security.auth.callback.CallbackHandler;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.HashMap;

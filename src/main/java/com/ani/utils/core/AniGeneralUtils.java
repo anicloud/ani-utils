@@ -1,7 +1,6 @@
 package com.ani.utils.core;
 
 import com.ani.utils.exception.AniAuthException;
-import com.ani.utils.exception.AniRuleException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
@@ -103,12 +102,19 @@ public class AniGeneralUtils {
         return ByteBuffer.allocate(Long.SIZE).putLong(longObj.longValue()).array();
     }
 
-    public static <T> Map<ByteBuffer, T> fromByteToByteBufferMap(Map<byte[], T> byteMap){
-        if(byteMap == null || byteMap.size() < 1){
+    public static long combineIntToLong(int int0, int int1) {
+        long result = int0;
+        result = result << 32;
+        result += int1;
+        return result;
+    }
+
+    public static <T> Map<ByteBuffer, T> fromByteToByteBufferMap(Map<byte[], T> byteMap) {
+        if (byteMap == null || byteMap.size() < 1) {
             return new HashMap<ByteBuffer, T>(1);
         }
         Map<ByteBuffer, T> resultByteBufferMap = new HashMap<ByteBuffer, T>(1);
-        for(byte[] oneByteKey: byteMap.keySet()){
+        for (byte[] oneByteKey : byteMap.keySet()) {
             resultByteBufferMap.put(
                     ByteBuffer.wrap(oneByteKey),
                     byteMap.get(oneByteKey));
@@ -116,5 +122,4 @@ public class AniGeneralUtils {
 
         return resultByteBufferMap;
     }
-
 }

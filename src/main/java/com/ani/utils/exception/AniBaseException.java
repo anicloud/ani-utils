@@ -9,9 +9,7 @@ import java.util.logging.Logger;
  * Date: 12-9-28
  */
 public class AniBaseException extends Exception {
-    /**
-     *
-     */
+
     private static final long serialVersionUID = -5854217260226084617L;
 
     protected transient Logger logger = Logger.getLogger("AniException");

@@ -1,7 +1,7 @@
 package com.ani.utils.core.sms;
 
 import com.ani.utils.core.AniByte;
-import com.ani.utils.core.datatype.AniDataPrimitiveTypes;
+import com.ani.utils.core.data.type.AniDataPrimitiveTypes;
 
 /**
  * Created by zhanglina on 17-11-13.
@@ -9,7 +9,6 @@ import com.ani.utils.core.datatype.AniDataPrimitiveTypes;
 public class AniByteUtils {
     public static AniByte primiType2Anibyte(AniDataPrimitiveTypes types, Object values){
         switch (types){
-
             case INTEGER:
                 return new AniByte((Integer) values);
             case PERCENTAGE:
@@ -30,9 +29,6 @@ public class AniByteUtils {
                 return new AniByte((Long)values);
             case BYTE:
                 return new AniByte((Byte)values);
-            case OBJECT:
-                // TODO: 17-11-13  for object 
-                return null;
         }
         return null;
     }
@@ -59,9 +55,6 @@ public class AniByteUtils {
                 return aniByte.bytes2Long();
             case BYTE:
                 return aniByte.toByte();
-            case OBJECT:
-                // TODO: 17-11-13  for object
-                return null;
         }
         return null;
 

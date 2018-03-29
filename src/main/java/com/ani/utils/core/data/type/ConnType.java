@@ -1,4 +1,4 @@
-package com.ani.utils.core.datatype;
+package com.ani.utils.core.data.type;
 
 /**
  * Created by yeh on 15-10-16.

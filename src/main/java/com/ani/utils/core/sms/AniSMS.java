@@ -1,9 +1,6 @@
 package com.ani.utils.core.sms;
 
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * Created by hey on 16-8-22.
  */
