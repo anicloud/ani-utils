@@ -27,38 +27,59 @@ public class AniByte implements Serializable {
     public AniByte(int integer) {
         this.setByteFromInt(integer);
     }
-    public AniByte (Long longvalue){
+
+    public AniByte(Long longvalue) {
         this.long2Bytes(longvalue);
     }
-    public AniByte(short shortvalue){
+
+    public AniByte(short shortvalue) {
         this.short2Byte(shortvalue);
     }
-    public AniByte(char charvalue){
+
+    public AniByte(char charvalue) {
         this.charToByte(charvalue);
     }
-    public AniByte(boolean b){
+
+    public AniByte(boolean b) {
         this.boolean2ByteArray(b);
     }
-    public AniByte(float floatValue){
+
+    public AniByte(float floatValue) {
         this.float2Byte(floatValue);
     }
-    public AniByte(Byte[] bytes){
-        this.bytes=new byte[bytes.length];
-        for (int i=0;i<bytes.length;i++){
-            this.bytes[i]=bytes[i].byteValue();
+
+    public AniByte(Byte[] bytes) {
+        this.bytes = new byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            this.bytes[i] = bytes[i].byteValue();
         }
     }
 
-    public AniByte(Byte by){
-        this.bytes=new byte[]{by.byteValue()};
+    public AniByte(Byte by) {
+        this.bytes = new byte[]{by.byteValue()};
 
     }
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
+
+    public static <T> Map<AniByte, T> fromByteMap(Map<byte[], T> byteMap) {
+        if (byteMap == null || byteMap.size() < 1) {
+            return new HashMap<AniByte, T>(1);
+        }
+        Map<AniByte, T> resultByteBufferMap = new HashMap<AniByte, T>(1);
+        for (byte[] oneByteKey : byteMap.keySet()) {
+            resultByteBufferMap.put(
+                    new AniByte(oneByteKey),
+                    byteMap.get(oneByteKey));
+        }
+
+        return resultByteBufferMap;
     }
 
     public byte[] getBytes() {
         return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
     }
 
     //int
@@ -77,17 +98,20 @@ public class AniByte implements Serializable {
                 (this.bytes[0] & 0xFF) << 24;
         return integer;
     }
-    public Byte toByte(){
-        return (Byte)this.bytes[0];
+
+    public Byte toByte() {
+        return (Byte) this.bytes[0];
     }
-    public Byte[] toBytes(){
-        Byte[] bs=new Byte[bytes.length];
-        for (int i=0;i<bytes.length;i++){
-            bs[i]=(Byte)bytes[i];
+
+    public Byte[] toBytes() {
+        Byte[] bs = new Byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            bs[i] = (Byte) bytes[i];
         }
         return bs;
     }    //long
-    public void  long2Bytes(long num) {
+
+    public void long2Bytes(long num) {
         this.bytes = new byte[8];
         for (int ix = 0; ix < 8; ++ix) {
             int offset = 64 - (ix + 1) * 8;
@@ -95,7 +119,7 @@ public class AniByte implements Serializable {
         }
     }
 
-    public  long bytes2Long() {
+    public long bytes2Long() {
         long num = 0;
         for (int ix = 0; ix < 8; ++ix) {
             num <<= 8;
@@ -103,31 +127,36 @@ public class AniByte implements Serializable {
         }
         return num;
     }
+
     //short
-    public  void short2Byte(short a){
+    public void short2Byte(short a) {
         this.bytes = new byte[2];
 
         this.bytes[0] = (byte) (a >> 8);
         this.bytes[1] = (byte) (a);
 
     }
-    public short byte2Short(){
+
+    public short byte2Short() {
         return (short) (((this.bytes[0] & 0xff) << 8) | (this.bytes[1] & 0xff));
     }
+
     //char
-    public void  charToByte(char c) {
-       this.bytes = new byte[2];
+    public void charToByte(char c) {
+        this.bytes = new byte[2];
         this.bytes[0] = (byte) ((c & 0xFF00) >> 8);
         this.bytes[1] = (byte) (c & 0xFF);
     }
+
     public char byteToChar() {
         char c = (char) (((this.bytes[0] & 0xFF) << 8) | (this.bytes[1] & 0xFF));
         return c;
     }
+
     //boolean
-    public  void  boolean2ByteArray(boolean val) {
+    public void boolean2ByteArray(boolean val) {
         int tmp = (val == false) ? 0 : 1;
-        this.bytes= ByteBuffer.allocate(4).putInt(tmp).array();
+        this.bytes = ByteBuffer.allocate(4).putInt(tmp).array();
     }
 
     public boolean byteArray2Boolean() {
@@ -137,19 +166,19 @@ public class AniByte implements Serializable {
         int tmp = ByteBuffer.wrap(this.bytes, 0, 4).getInt();
         return (tmp == 0) ? false : true;
     }
+
     //float
-    public void  float2Byte(Float f){
-        int values=Float.floatToIntBits(f);
-        this.bytes=new AniByte(values).getBytes();
+    public void float2Byte(Float f) {
+        int values = Float.floatToIntBits(f);
+        this.bytes = new AniByte(values).getBytes();
 
     }
-    public  float byte2Float(){
-        int values= new AniByte(bytes).getIntValue();
+
+    public float byte2Float() {
+        int values = new AniByte(bytes).getIntValue();
         return Float.intBitsToFloat(values);
 
     }
-
-
 
     public int hashCode() {
         if (this.bytes == null || bytes.length < 1) return 0;
@@ -164,6 +193,38 @@ public class AniByte implements Serializable {
         return (this.hashCode() == byteObj.hashCode());
     }
 
+    private static char hexDigits[] = {
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f'
+    };
+
+    public String getHexStringFromByte() {
+        if(this.bytes == null) return null;
+        int length = this.bytes.length;
+        char[] result = new char[length * 2];
+        int k = 0;
+        for (int i = 0; i < length; i++) {
+            byte byte0 = this.bytes[i];
+            result[k++] = hexDigits[byte0 >>> 4 & 0xf];
+            result[k++] = hexDigits[byte0 & 0xf];
+        }
+        return String.valueOf(result);
+    }
+
     @Override
     public String toString() {
         if (this.bytes == null || this.bytes.length < 1) return "";
@@ -172,19 +233,5 @@ public class AniByte implements Serializable {
             byteStr.append(oneByte);
         }
         return byteStr.toString();
-    }
-
-    public static <T> Map<AniByte, T> fromByteMap(Map<byte[], T> byteMap) {
-        if (byteMap == null || byteMap.size() < 1) {
-            return new HashMap<AniByte, T>(1);
-        }
-        Map<AniByte, T> resultByteBufferMap = new HashMap<AniByte, T>(1);
-        for (byte[] oneByteKey : byteMap.keySet()) {
-            resultByteBufferMap.put(
-                    new AniByte(oneByteKey),
-                    byteMap.get(oneByteKey));
-        }
-
-        return resultByteBufferMap;
     }
 }
