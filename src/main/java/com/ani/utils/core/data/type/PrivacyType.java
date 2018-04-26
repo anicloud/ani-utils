@@ -3,15 +3,15 @@ package com.ani.utils.core.data.type;
 /**
  * Created by yeh on 15-10-16.
  */
-public enum PrivilegeType {
+public enum PrivacyType {
 
-    READ(1),
-    WRITE(2),
-    EXECUTE(4);
+    PUBLIC(1),
+    PROTECTED(2),
+    PRIVATE(4);
 
     private final Integer typeId;
 
-    PrivilegeType(int typeId) {
+    PrivacyType(int typeId) {
         this.typeId = typeId;
     }
 
