@@ -1,26 +1,21 @@
 package com.ani.utils.core.data.type;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by yeh on 15-10-16.
  */
-public enum PrivacyType {
+public enum TransparencyType {
 
-    PUBLIC(1),
-    PROTECTED(2),
-    PRIVATE(4);
+    CURRENT(1),
+    NEIGHBOURS(2),
+    CHILDREN(4);
 
     private final Integer typeId;
 
-    PrivacyType(int typeId) {
+    TransparencyType(int typeId) {
         this.typeId = typeId;
     }
 
-    public int getId() {
+    public int getValue() {
         return this.typeId;
     }
-
-
 }

@@ -22,7 +22,7 @@
     <description>Ani-utils is a module that defines all the exceptions and several functions might be used generally.
     </description>
     <properties>
-        <java-version>1.7</java-version>
+        <java-version>1.8</java-version>
         <org.springframework-version>4.0.5.RELEASE</org.springframework-version>
         <slf4j-version>1.7.12</slf4j-version>
         <jackson-version>2.4.0</jackson-version>
@@ -82,13 +82,18 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.3.1.RELEASE</version>
+            <version>5.0.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.4</version>
         </dependency>
     </dependencies>
 </project>
