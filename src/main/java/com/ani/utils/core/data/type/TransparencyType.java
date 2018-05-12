@@ -6,8 +6,7 @@ package com.ani.utils.core.data.type;
 public enum TransparencyType {
 
     CURRENT(1),
-    NEIGHBOURS(2),
-    CHILDREN(4);
+    CHILDREN(2);
 
     private final Integer typeId;
 

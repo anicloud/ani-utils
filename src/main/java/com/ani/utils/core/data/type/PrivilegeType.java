@@ -38,5 +38,14 @@ public enum PrivilegeType {
         }
         return curTypes;
     }
+    public static short getByTypes(Set<PrivilegeType> privilegeTypes){
+        int types=0;
+        if (privilegeTypes!=null && privilegeTypes.size()!=0){
+            for (PrivilegeType privilegeType:privilegeTypes){
+                types=types+privilegeType.getId();
+            }
+        }
+        return (short)types;
+    }
 
 }
