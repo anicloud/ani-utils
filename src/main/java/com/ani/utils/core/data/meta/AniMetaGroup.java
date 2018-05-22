@@ -9,7 +9,6 @@ public abstract class AniMetaGroup implements Serializable {
     private static final long serialVersionUID = 8670038946985933832L;
 
     Integer groupId;
-
     String name;
 
     public AniMetaGroup() {

@@ -71,9 +71,9 @@ public class AniByteArray implements Serializable {
     }
 
     public synchronized void setByteArrayValues(byte... bytes) throws AniRuleException {
-        if(bytes == null) throw new AniRuleException("BYTE_ARRAY_IS_NULL");
+        if (bytes == null) throw new AniRuleException("BYTE_ARRAY_IS_NULL");
         initAndCheckArrayCapacity(bytes.length);
-        for(int idx = 0; idx < bytes.length; idx++){
+        for (int idx = 0; idx < bytes.length; idx++) {
             this.bytes[this.curIdx + idx] = bytes[idx];
         }
         this.curIdx += bytes.length;
@@ -108,13 +108,14 @@ public class AniByteArray implements Serializable {
         return bs;
     }    //long
 
-    public void long2Bytes(long num) throws AniRuleException {
+    public AniByteArray setLong(long num) throws AniRuleException {
         byte[] longBytes = new byte[8];
         for (int ix = 0; ix < 8; ++ix) {
             int offset = 64 - (ix + 1) * 8;
             longBytes[ix] = (byte) ((num >> offset) & 0xff);
         }
         this.setByteArrayValues(longBytes);
+        return this;
     }
 
     public long bytes2Long() {
@@ -189,6 +190,30 @@ public class AniByteArray implements Serializable {
     public boolean equals(Object obj) {
         AniByteArray byteObj = (AniByteArray) obj;
         return (this.hashCode() == byteObj.hashCode());
+    }
+
+    public static boolean equalsArr(byte[] mb, byte[] tb) {
+        boolean e = true;
+        if (mb == null) {
+            if (tb == null)
+                return true;
+            else
+                return false;
+        }
+        if (tb == null)
+            return false;
+        if (tb.length != mb.length)
+            return false;
+        for (byte otb : tb) {
+            for (byte omb : mb) {
+                if (otb != omb) return false;
+            }
+        }
+        return e;
+    }
+
+    public boolean equalsArr(byte[] bytes) {
+        return equalsArr(bytes, this.bytes);
     }
 
     public String getHexStringFromByte() {

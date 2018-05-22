@@ -110,6 +110,16 @@ public class AniSecureUtils {
         }
         return hmacByteMd5;
     }
+
+    public static byte[] generateHMACByteSha2(byte[] key, byte[] message) {
+        byte[] hmacByteMd5 = null;
+        try {
+            hmacByteMd5 = generateHMACByte(key, message, "HmacSHA256");
+        } catch (AniRuleException e) {
+            e.printStackTrace();
+        }
+        return hmacByteMd5;
+    }
 //
 //    public static String generateHMACString(String key, String message) {
 //        SecretKey secretKey = new SecretKeySpec(key.getBytes(), "HmacMD5");
@@ -137,8 +147,12 @@ public class AniSecureUtils {
         }
     }
 
-    public static byte[] generateMd5Token(byte[] key) {
-        return generateHMACByteMd5(key, AniGeneralUtils.longToByte(generateRandomUniqueIdLong()));
+    public static byte[] generateMd5Token(byte[] srcToken) {
+        return generateHMACByteMd5(srcToken, AniGeneralUtils.longToByte(generateRandomUniqueIdLong()));
+    }
+
+    public static byte[] generateSha256Token(byte[] srcToken) {
+        return generateHMACByteSha2(srcToken, AniGeneralUtils.longToByte(generateRandomUniqueIdLong()));
     }
 
     public static byte[] generateRequestCode(Long timestamp, byte[] token) {

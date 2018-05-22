@@ -5,6 +5,7 @@ import com.ani.utils.core.data.type.AniDataType;
 import com.ani.utils.core.data.type.AniDataTypeCategories;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.ani.utils.core.data.type.AniDataTypeCategories.COLLECTION;
 
@@ -26,5 +27,18 @@ public class AniCollectionValue<P> extends AniValue<P> {
                 )
             throw new AniValueException(Errors.DATA_EMPTY);
         super.checkValue(dataType);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AniCollectionValue<?> that = (AniCollectionValue<?>) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }

@@ -1,6 +1,5 @@
 package com.ani.utils.core.data.meta;
 
-import com.ani.utils.core.AniGeneralUtils;
 import com.ani.utils.exception.AniRuleException;
 
 import java.io.Serializable;
