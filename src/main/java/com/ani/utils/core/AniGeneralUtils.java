@@ -78,20 +78,38 @@ public class AniGeneralUtils {
         return containsDuplicateElement;
     }
 
-    public static int countListsSize(List... lists) {
+    public static int countCollectionsSize(Collection... cols) {
         int totalSize = 0;
-        for (List oneList : lists) {
+        if(cols == null || cols.length < 1)
+            return totalSize;
+        for (Collection oneList : cols) {
+            if(oneList == null)
+                continue;
             totalSize += oneList.size();
         }
         return totalSize;
     }
 
-    public static <T> List<T> mergeLists(List<T>... lists) {
-        List<T> mergedList = new ArrayList<T>(countListsSize(lists));
-        for (List<T> oneList : lists) {
+    public static <T> List<T> mergeCollectionsToList(Collection<T>... cols) {
+        List<T> mergedList = new ArrayList<T>(countCollectionsSize(cols));
+        for (Collection<T> oneList : cols) {
+            if(oneList == null)
+                continue;
             mergedList.addAll(oneList);
         }
         return mergedList;
+    }
+
+    public static int getLongestCollectionLength(Collection... cols) {
+        int longestColLength = 0;
+        if(cols == null || cols.length == 0)
+            return 0;
+        for(Collection oneCol: cols) {
+            if(oneCol == null || oneCol.size() < longestColLength)
+                continue;
+            longestColLength += oneCol.size();
+        }
+        return longestColLength;
     }
 
     public static void stringsEqual(String string1, String string2, String errorNotification) throws AniAuthException {
