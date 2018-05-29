@@ -19,7 +19,7 @@ public class AniRuleException extends AniBaseException {
     public enum Type {
         EMAIL_EXITS,
         PHONE_EXITS,
-        ACCOUNT_NOT_EXITS,
+        ACCOUNT_NOT_EXISTS,
         PASSWORD_INCORRECT,
         TYPE_ERROR,
         OBJECT_EMPTY,
