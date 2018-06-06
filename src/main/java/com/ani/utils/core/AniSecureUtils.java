@@ -1,6 +1,6 @@
 package com.ani.utils.core;
 
-import com.ani.utils.exception.*;
+import com.ani.utils.exception.AniRuleException;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -41,6 +41,20 @@ public class AniSecureUtils {
             result[k++] = hexDigits[byte0 & 0xf];
         }
         return String.valueOf(result);
+    }
+
+    public static byte[] getByteFromHexStr(String hexStr) {
+        if (hexStr == null || hexStr.length() < 1)
+            return null;
+        int hexStrLen = hexStr.length();
+        byte[] result = new byte[hexStrLen / 2];
+        for (int i = 0; i < hexStrLen; i += 2) {
+            result[i / 2] = (byte) ((
+                    Character.digit(hexStr.charAt(i), 16) << 4)
+                    + Character.digit(hexStr.charAt(i + 1), 16));
+        }
+        return result;
+
     }
 
     public static Long generateTimeMillis() {
@@ -120,7 +134,8 @@ public class AniSecureUtils {
         }
         return hmacByteMd5;
     }
-//
+
+    //
 //    public static String generateHMACString(String key, String message) {
 //        SecretKey secretKey = new SecretKeySpec(key.getBytes(), "HmacMD5");
 //        try {
@@ -133,15 +148,15 @@ public class AniSecureUtils {
 //            return null;
 //        }
 //    }
-    public static String generateHMACString(String key,String message){
-        SecretKey secretKey = new SecretKeySpec(key.getBytes(),"HmacSHA256");
+    public static String generateHMACString(String key, String message) {
+        SecretKey secretKey = new SecretKeySpec(key.getBytes(), "HmacSHA256");
         try {
             Mac mac = Mac.getInstance(secretKey.getAlgorithm());
             mac.init(secretKey);
-            byte[] hmac=mac.doFinal(message.getBytes());
+            byte[] hmac = mac.doFinal(message.getBytes());
             return getHexStringFromByte(hmac);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
