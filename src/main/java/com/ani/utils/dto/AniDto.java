@@ -105,9 +105,10 @@ public class AniDto implements Serializable {
         }
     }
 
-    public static void checkDtoEmpty(AniDto dto, String elem) throws AniRuleException {
+    public static void checkDto(AniDto dto, String elem) throws AniRuleException {
         if(dto == null)
             throw new AniRuleException(elem + "_IS_REQUIRED");
+        dto.checkFields();
     }
 
 

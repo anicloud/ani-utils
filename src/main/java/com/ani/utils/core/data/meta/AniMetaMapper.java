@@ -22,20 +22,23 @@ public abstract class AniMetaMapper implements Serializable {
 
     public void initFromMeta(AniMeta meta) throws AniRuleException {
         checkMeta(meta);
-        this.groupId = meta.groupId;
-        this.metaId = meta.id;
+        this.groupId = meta.getGroup().getGroupId();
+        this.metaId = meta.getId();
     }
 
     protected void checkMetaMatching(AniMeta meta) throws AniRuleException {
         checkMeta(meta);
-        if (this.groupId != meta.groupId || this.metaId != meta.id)
+        if (this.groupId != meta.getGroup().getGroupId()
+                || this.metaId != meta.getId())
             throw new AniRuleException("META_NOT_MATCH");
     }
 
     private void checkMeta(AniMeta meta) throws AniRuleException {
         if (meta == null)
             throw new AniRuleException("META_IS_REQUIRED");
-        if (meta.groupId == null || meta.id == null)
+        if (meta.getGroup() == null
+                || meta.getGroup().getGroupId() == null
+                || meta.getId() == null)
             throw new AniRuleException("METAID_AND_GROUPID_REQUIRED");
     }
 

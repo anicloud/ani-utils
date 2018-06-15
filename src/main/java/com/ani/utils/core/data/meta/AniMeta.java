@@ -10,17 +10,17 @@ import java.util.List;
 public abstract class AniMeta implements Serializable {
 
     private static final long serialVersionUID = 8670038946985933832L;
-    Integer groupId;
-    Integer id;
-    String name;
-    List<AniMetaParam> params;
+    private AniMetaGroup group;
+    private Integer id;
+    private String name;
+    private List<AniMetaParam> params;
     private Long longId = null;
 
     public AniMeta() {
     }
 
-    public AniMeta(Integer groupId, Integer id, String name, List<AniMetaParam> params) {
-        this.groupId = groupId;
+    public AniMeta(AniMetaGroup group, Integer id, String name, List<AniMetaParam> params) {
+        this.group = group;
         this.id = id;
         this.name = name;
         this.params = params;
@@ -32,12 +32,12 @@ public abstract class AniMeta implements Serializable {
         return AniGeneralUtils.combineIntToLong(groupId, id);
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public AniMetaGroup getGroup() {
+        return group;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setGroup(AniMetaGroup group) {
+        this.group = group;
     }
 
     public Integer getId() {
@@ -65,8 +65,10 @@ public abstract class AniMeta implements Serializable {
     }
 
     public Long getLongId() throws AniRuleException {
+        if (this.group == null || this.group.getGroupId() == null)
+            throw new AniRuleException("META_GROUP_UNINITIALIZED");
         if (this.longId == null)
-            this.longId = AniMeta.getLongId(this.groupId, this.id);
+            this.longId = AniMeta.getLongId(this.group.getGroupId(), this.id);
         return this.longId;
     }
 
@@ -120,7 +122,12 @@ public abstract class AniMeta implements Serializable {
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof AniMeta))
             return false;
+        if (this.group == null || this.group.getGroupId() == null)
+            return false;
         AniMeta objModel = (AniMeta) obj;
-        return this.id == objModel.id;
+        if (objModel.group == null || objModel.getGroup() == null)
+            return false;
+        return (this.id == objModel.id)
+                && (this.group.equals(objModel.getGroup()));
     }
 }
