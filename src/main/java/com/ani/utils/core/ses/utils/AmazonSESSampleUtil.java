@@ -21,7 +21,7 @@ import java.util.Properties;
 /**
  * Created by ebrx on 18-7-9.
  */
-@Service
+
 public class AmazonSESSampleUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(AmazonSESSampleUtil.class);
 
@@ -40,7 +40,7 @@ public class AmazonSESSampleUtil {
     static final String SUBJECT = "AniCloud account email authentication";
 
 
-    public SendEmailOutputDto sendMail(SendEmailInputDto sendEmailInputDto) throws UnsupportedEncodingException, MessagingException {
+    public static SendEmailOutputDto sendMail(SendEmailInputDto sendEmailInputDto) throws UnsupportedEncodingException, MessagingException {
         String BODY = String.join(
                 System.getProperty("line.separator"),
                 "<p style=\"margin:0px;padding:0px;\"><strong style=\"font-size:14px;line-height:30px;color:#333333;font-family:arial,sans-serif;\">Dear user:</strong></p>",

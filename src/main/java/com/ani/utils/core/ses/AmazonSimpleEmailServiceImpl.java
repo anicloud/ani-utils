@@ -15,13 +15,10 @@ import java.util.Date;
  * Created by ebrx on 18-7-9.
  */
 public class AmazonSimpleEmailServiceImpl implements AmazonSimpleEmailService {
-    @Resource
-    AmazonSESSampleUtil amazonSESSampleUtil;
-
     @Override
     public SendEmailOutputDto sendEmail(SendEmailInputDto sendEmailInputDto) throws AniRuleException, MessagingException, UnsupportedEncodingException {
         if (null == sendEmailInputDto) throw new AniRuleException("SEND_EMAIL_DTO_REQUIRED");
         sendEmailInputDto.checkFields();
-        return amazonSESSampleUtil.sendMail(sendEmailInputDto);
+        return AmazonSESSampleUtil.sendMail(sendEmailInputDto);
     }
 }
