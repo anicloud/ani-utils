@@ -14,7 +14,7 @@ public class SendEmailInputDto extends AniDto {
     public SendEmailInputDto() {
     }
 
-    public SendEmailInputDto(String toAddress, String subject, String body) {
+    public SendEmailInputDto(String toAddress, String body) {
         this.toAddress = toAddress;
         this.verCode = body;
     }

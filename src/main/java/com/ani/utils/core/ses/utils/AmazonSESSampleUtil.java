@@ -3,6 +3,7 @@ package com.ani.utils.core.ses.utils;
 import com.ani.utils.core.ses.dto.SendEmailInputDto;
 import com.ani.utils.core.ses.dto.SendEmailOutputDto;
 import com.ani.utils.exception.AniRuleException;
+import com.sun.xml.internal.ws.api.model.ExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class AmazonSESSampleUtil {
         }
     }
 
-    private static void sm(SendEmailInputDto sendEmailInputDto) throws UnsupportedEncodingException, MessagingException {
+    private static void sm(SendEmailInputDto sendEmailInputDto) throws AniRuleException{
         String BODY = String.join(
                 System.getProperty("line.separator"),
                 "<p style=\"margin:0px;padding:0px;\"><strong style=\"font-size:14px;line-height:30px;color:#333333;font-family:arial,sans-serif;\">Dear user:</strong></p>",
@@ -68,24 +69,28 @@ public class AmazonSESSampleUtil {
         props.put("mail.smtp.auth", "true");
 
         Session session = Session.getDefaultInstance(props);
-
+        Transport transport=null;
+        try {
         MimeMessage msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(FROM, FROMNAME));
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(sendEmailInputDto.getToAddress()));
         msg.setSubject(SUBJECT);
         msg.setContent(BODY, "text/html");
 
-        Transport transport = session.getTransport();
-        try {
+         transport = session.getTransport();
+
             LOGGER.info("Sending...");
             transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
-
             transport.sendMessage(msg, msg.getAllRecipients());
             LOGGER.info("Email sent!");
         } catch (Exception ex) {
-            LOGGER.info("The email was not sent.");
+            throw new AniRuleException("E");
         } finally {
-            transport.close();
+            try {
+                transport.close();
+            } catch (MessagingException e) {
+                throw  new AniRuleException("E");
+            }
         }
     }
     private static String  getDate() {
