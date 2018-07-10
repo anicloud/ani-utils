@@ -71,6 +71,20 @@ public class AniSecureUtils {
         return Math.abs(random.nextInt());
     }
 
+    public static byte[] generateRandomPassword() {
+        Random random = new Random(System.currentTimeMillis());
+        byte[] pass = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            int r = random.nextInt(52);
+            if (r < 26) {
+                pass[i] = (byte)(r + (int) 'A');
+            } else {
+                pass[i] = (byte)(r - 26 + (int) 'a');
+            }
+        }
+        return pass;
+    }
+
     public static byte[] generateHashByte(String algorithm, byte[] srcByte) throws AniRuleException {
         MessageDigest messageDigest = null;
         try {
