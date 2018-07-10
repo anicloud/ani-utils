@@ -1,12 +1,9 @@
 package com.ani.utils.core.ses.utils;
 
 import com.ani.utils.core.ses.dto.SendEmailInputDto;
-import com.ani.utils.core.ses.dto.SendEmailOutputDto;
 import com.ani.utils.exception.AniRuleException;
-import com.sun.xml.internal.ws.api.model.ExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 
 import javax.mail.Message;
@@ -15,7 +12,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -42,14 +38,6 @@ public class AmazonSESSampleUtil {
     static final String SUBJECT = "AniCloud account email authentication";
 
     public static void sendMail(SendEmailInputDto sendEmailInputDto) throws AniRuleException{
-        try {
-            sm(sendEmailInputDto);
-        } catch (Exception e) {
-           throw new AniRuleException(AniRuleException.Type.EMAIL_ERROR);
-        }
-    }
-
-    private static void sm(SendEmailInputDto sendEmailInputDto) throws AniRuleException{
         String BODY = String.join(
                 System.getProperty("line.separator"),
                 "<p style=\"margin:0px;padding:0px;\"><strong style=\"font-size:14px;line-height:30px;color:#333333;font-family:arial,sans-serif;\">Dear user:</strong></p>",
@@ -84,12 +72,12 @@ public class AmazonSESSampleUtil {
             transport.sendMessage(msg, msg.getAllRecipients());
             LOGGER.info("Email sent!");
         } catch (Exception ex) {
-            throw new AniRuleException("E");
+            throw new AniRuleException("The email was not sent.");
         } finally {
             try {
                 transport.close();
             } catch (MessagingException e) {
-                throw  new AniRuleException("E");
+                throw new AniRuleException("Transport Not closed.");
             }
         }
     }
