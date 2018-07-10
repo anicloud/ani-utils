@@ -2,6 +2,7 @@ package com.ani.utils.core.ses.utils;
 
 import com.ani.utils.core.ses.dto.SendEmailInputDto;
 import com.ani.utils.core.ses.dto.SendEmailOutputDto;
+import com.ani.utils.exception.AniRuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,15 @@ public class AmazonSESSampleUtil {
 
     static final String SUBJECT = "AniCloud account email authentication";
 
+    public static void sendMail(SendEmailInputDto sendEmailInputDto) throws AniRuleException{
+        try {
+            sm(sendEmailInputDto);
+        } catch (Exception e) {
+           throw new AniRuleException(AniRuleException.Type.EMAIL_ERROR);
+        }
+    }
 
-    public static SendEmailOutputDto sendMail(SendEmailInputDto sendEmailInputDto) throws UnsupportedEncodingException, MessagingException {
+    private static void sm(SendEmailInputDto sendEmailInputDto) throws UnsupportedEncodingException, MessagingException {
         String BODY = String.join(
                 System.getProperty("line.separator"),
                 "<p style=\"margin:0px;padding:0px;\"><strong style=\"font-size:14px;line-height:30px;color:#333333;font-family:arial,sans-serif;\">Dear user:</strong></p>",
@@ -68,23 +76,14 @@ public class AmazonSESSampleUtil {
         msg.setContent(BODY, "text/html");
 
         Transport transport = session.getTransport();
-
-        SendEmailOutputDto sendEmailOutputDto = new SendEmailOutputDto();
         try {
             LOGGER.info("Sending...");
             transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
 
             transport.sendMessage(msg, msg.getAllRecipients());
             LOGGER.info("Email sent!");
-            sendEmailOutputDto.setStatus("S");
-            sendEmailOutputDto.setMsg("success");
-            return sendEmailOutputDto;
         } catch (Exception ex) {
             LOGGER.info("The email was not sent.");
-            LOGGER.info("Error message: " + ex.getMessage());
-            sendEmailOutputDto.setStatus("E");
-            sendEmailOutputDto.setMsg(ex.getMessage());
-            return sendEmailOutputDto;
         } finally {
             transport.close();
         }
