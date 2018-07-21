@@ -126,6 +126,11 @@ public class AniGeneralUtils {
         result += int1;
         return result;
     }
+    public static int longToFrontInt(long data){
+     data=data>>32;
+     int result=(int)data;
+     return result;
+    }
 
     public static <T> Map<ByteBuffer, T> fromByteToByteBufferMap(Map<byte[], T> byteMap) {
         if (byteMap == null || byteMap.size() < 1) {

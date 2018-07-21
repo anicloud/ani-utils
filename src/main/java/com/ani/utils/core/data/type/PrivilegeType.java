@@ -10,7 +10,8 @@ public enum PrivilegeType {
 
     READ(1),
     WRITE(2),
-    EXECUTE(4);
+    EXECUTE(4),
+    ADMIN(8);
 
     private final Integer typeId;
 
