@@ -5,49 +5,37 @@ import com.ani.utils.exception.AniRuleException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AniMetaValue implements Serializable {
 
     private static final long serialVersionUID = 8670038946985933832L;
 
-    protected AniMeta meta;
+    protected Long metaLongId;
     protected List<AniValue> paramsValue;
 
     public AniMetaValue() {
     }
 
-    public AniMetaValue(AniMeta meta, List<AniValue> paramsValue) {
-        this.meta = meta;
+    public AniMetaValue(Long metaLongId, List<AniValue> paramsValue) {
+        this.metaLongId = metaLongId;
         this.paramsValue = paramsValue;
     }
 
-    public void check() throws AniRuleException, AniValue.AniValueException {
-        if (this.meta == null)
-            throw new AniRuleException("META_IS_REQUIRED");
-        this.meta.checkParamsValueByMeta(this.paramsValue);
+    public Long getMetaLongId() {
+        return metaLongId;
     }
 
-    public AniMeta getMeta() {
-        return meta;
-    }
-
-    public void setMeta(AniMeta meta) {
-        this.meta = meta;
-        this.paramsValue = null;
+    public void setMetaLongId(Long metaLongId) {
+        this.metaLongId = metaLongId;
     }
 
     public List<AniValue> getParamsValue() {
         return paramsValue;
     }
 
-    public void setParamsValue(List<AniValue> paramsValue) throws AniRuleException, AniValue.AniValueException {
-        this.meta.checkParamsValueByMeta(paramsValue);
+    public void setParamsValue(List<AniValue> paramsValue) {
         this.paramsValue = paramsValue;
-    }
-
-    public void setParamValue(int idx, AniValue value) throws AniValue.AniValueException, AniRuleException {
-        this.meta.checkParamValue(idx, value);
-        this.paramsValue.add(idx, value);
     }
 
     public AniValue getParamValue(int idx) throws AniRuleException {
@@ -59,15 +47,41 @@ public abstract class AniMetaValue implements Serializable {
 
     @Override
     public int hashCode() {
-        return this.meta.hashCode();
+        if(metaLongId == null)
+            return 0;
+        return Objects.hashCode(metaLongId);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof AniMetaValue))
             return false;
-        AniMetaValue objModel = (AniMetaValue) obj;
-        return this.meta.equals(objModel.meta)
-                && this.paramsValue.equals(objModel.paramsValue);
+        AniMetaValue metaValue = (AniMetaValue) obj;
+        if(metaValue.getMetaLongId() != this.metaLongId)
+            return false;
+        if(paramsValueEquality(metaValue.getParamsValue()))
+            return false;
+        return true;
+    }
+
+    private boolean paramsValueEquality(List<AniValue> paramsValue) {
+        if(paramsValue == null
+            && this.paramsValue == null) {
+                return true;
+        }
+        if(paramsValue != null && this.paramsValue != null) {
+            if(paramsValue.size() != this.paramsValue.size())
+                return false;
+            for(int idx = 0; idx < paramsValue.size(); idx++) {
+                if(this.paramsValue.get(idx) == null
+                    || paramsValue.get(idx) == null)
+                    return false;
+                if(!this.paramsValue.get(idx)
+                        .equals(paramsValue.get(idx)))
+                    return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

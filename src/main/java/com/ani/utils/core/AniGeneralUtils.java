@@ -1,6 +1,7 @@
 package com.ani.utils.core;
 
 import com.ani.utils.exception.AniAuthException;
+import com.ani.utils.exception.AniRuleException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
@@ -14,6 +15,10 @@ public class AniGeneralUtils {
             return true;
         }
         return false;
+    }
+
+    public static void normalizeBoolean(Boolean boo) {
+        boo = (boo == null ? false : boo);
     }
 
     public static Boolean isCollectionEmpty(Collection oneCol) {
@@ -90,7 +95,10 @@ public class AniGeneralUtils {
         return totalSize;
     }
 
-    public static <T> List<T> mergeCollectionsToList(Collection<T>... cols) {
+    public static <T> List<T> mergeCollectionsToList(Collection<T>... cols) throws AniRuleException {
+        if(cols == null || cols.length < 1) {
+            throw new AniRuleException("COLLECTIONS_REQUIRED");
+        }
         List<T> mergedList = new ArrayList<T>(countCollectionsSize(cols));
         for (Collection<T> oneList : cols) {
             if(oneList == null)

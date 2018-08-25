@@ -33,9 +33,11 @@ public class AniByteArray implements Serializable {
     Integer curIdx = 0;
 
     public AniByteArray() {
+        this.curIdx = 0;
     }
 
     public AniByteArray(byte[] bytes) {
+        this.curIdx = 0;
         this.bytes = bytes;
     }
 
@@ -49,6 +51,32 @@ public class AniByteArray implements Serializable {
             throw new AniDataException("BYTE_ARRAY_LENGTH_MUST_BE_POSITIVE");
         this.bytes = new byte[length];
         this.curIdx = 0;
+    }
+
+    public int getLength() {
+        if(this.bytes == null)
+            return 0;
+        return this.bytes.length;
+    }
+
+    public static boolean equalsArr(byte[] mb, byte[] tb) {
+        boolean e = true;
+        if (mb == null) {
+            if (tb == null)
+                return true;
+            else
+                return false;
+        }
+        if (tb == null)
+            return false;
+        if (tb.length != mb.length)
+            return false;
+        for (byte otb : tb) {
+            for (byte omb : mb) {
+                if (otb != omb) return false;
+            }
+        }
+        return e;
     }
 
     public byte[] getBytes() {
@@ -70,9 +98,14 @@ public class AniByteArray implements Serializable {
         }
     }
 
-    public synchronized void setByteArrayValues(byte... bytes) throws AniRuleException {
-        if (bytes == null) throw new AniRuleException("BYTE_ARRAY_IS_NULL");
-        initAndCheckArrayCapacity(bytes.length);
+    public synchronized void setByteArrayValues(boolean needInit, byte... bytes) throws AniRuleException {
+        if (bytes == null)
+            throw new AniRuleException("BYTE_ARRAY_REQUIRED");
+        if (needInit || this.bytes == null) {
+            initAndCheckArrayCapacity(bytes.length);
+        }
+        if (this.bytes.length - this.curIdx < bytes.length)
+            throw new AniRuleException("BYTE_LENGTH_OVERFLOW");
         for (int idx = 0; idx < bytes.length; idx++) {
             this.bytes[this.curIdx + idx] = bytes[idx];
         }
@@ -80,8 +113,9 @@ public class AniByteArray implements Serializable {
     }
 
     //int
-    public void setByteFromInt(int integer) throws AniRuleException {
+    public void setInt(boolean needInit, int integer) throws AniRuleException {
         setByteArrayValues(
+                needInit,
                 (byte) ((integer >> 24) & 0xFF),
                 (byte) ((integer >> 16) & 0xFF),
                 (byte) ((integer >> 8) & 0xFF),
@@ -96,29 +130,29 @@ public class AniByteArray implements Serializable {
         return integer;
     }
 
-    public Byte toByte() {
-        return (Byte) this.bytes[0];
+    public Byte getByteObj() {
+        return this.bytes[0];
     }
 
-    public Byte[] toBytes() {
+    public Byte[] getBytesObjArr() {
         Byte[] bs = new Byte[bytes.length];
         for (int i = 0; i < bytes.length; i++) {
-            bs[i] = (Byte) bytes[i];
+            bs[i] = bytes[i];
         }
         return bs;
     }    //long
 
-    public AniByteArray setLong(long num) throws AniRuleException {
+    public AniByteArray setLong(boolean needInit, long num) throws AniRuleException {
         byte[] longBytes = new byte[8];
         for (int ix = 0; ix < 8; ++ix) {
             int offset = 64 - (ix + 1) * 8;
             longBytes[ix] = (byte) ((num >> offset) & 0xff);
         }
-        this.setByteArrayValues(longBytes);
+        this.setByteArrayValues(needInit, longBytes);
         return this;
     }
 
-    public long bytes2Long() {
+    public long getLong() {
         long num = 0;
         for (int ix = 0; ix < 8; ++ix) {
             num <<= 8;
@@ -128,37 +162,30 @@ public class AniByteArray implements Serializable {
     }
 
     //short
-    public void short2Byte(short a) {
+    public void setShort(boolean needInit, short a) throws AniRuleException {
         this.bytes = new byte[2];
-
-        this.bytes[0] = (byte) (a >> 8);
-        this.bytes[1] = (byte) (a);
-
+        setByteArrayValues(needInit,
+                (byte) (a >> 8),
+                (byte) (a));
     }
 
-    public short byte2Short() {
+    public short getShort() {
         return (short) (((this.bytes[0] & 0xff) << 8) | (this.bytes[1] & 0xff));
     }
 
     //char
-    public void charToByte(char c) {
-        this.bytes = new byte[2];
-        this.bytes[0] = (byte) ((c & 0xFF00) >> 8);
-        this.bytes[1] = (byte) (c & 0xFF);
+    public void setChar(boolean needInit, char c) throws AniRuleException {
+        setByteArrayValues(needInit,
+                (byte) ((c & 0xFF00) >> 8),
+                (byte) (c & 0xFF));
     }
 
-    public char byteToChar() {
+    public char getChar() {
         char c = (char) (((this.bytes[0] & 0xFF) << 8) | (this.bytes[1] & 0xFF));
         return c;
     }
 
-    //boolean
-    public void boolean2ByteArray(boolean val) {
-        int tmp = (val == false) ? 0 : 1;
-        this.bytes = ByteBuffer.allocate(4).putInt(tmp).array();
-    }
-
-    public boolean byteArray2Boolean() {
+    public boolean getBoolean() {
         if (this.bytes == null || this.bytes.length < 4) {
             return false;
         }
@@ -166,14 +193,24 @@ public class AniByteArray implements Serializable {
         return (tmp == 0) ? false : true;
     }
 
+    //boolean
+    public void setBoolean(boolean needInit, boolean val) throws AniRuleException {
+        int tmp = (val == false) ? 0 : 1;
+        this.setByteArrayValues(
+                needInit,
+                ByteBuffer.allocate(4).putInt(tmp).array());
+    }
+
     //float
-    public void float2Byte(Float f) throws AniDataException {
+    public void setFloat(boolean needInit, Float f) throws AniDataException, AniRuleException {
         int values = Float.floatToIntBits(f);
-        this.bytes = new AniByteArray(values).getBytes();
+        this.setByteArrayValues(
+                needInit,
+                new AniByteArray(values).getBytes());
 
     }
 
-    public float byte2Float() {
+    public float getFloat() {
         int values = new AniByteArray(bytes).getIntValue();
         return Float.intBitsToFloat(values);
 
@@ -190,26 +227,6 @@ public class AniByteArray implements Serializable {
     public boolean equals(Object obj) {
         AniByteArray byteObj = (AniByteArray) obj;
         return (this.hashCode() == byteObj.hashCode());
-    }
-
-    public static boolean equalsArr(byte[] mb, byte[] tb) {
-        boolean e = true;
-        if (mb == null) {
-            if (tb == null)
-                return true;
-            else
-                return false;
-        }
-        if (tb == null)
-            return false;
-        if (tb.length != mb.length)
-            return false;
-        for (byte otb : tb) {
-            for (byte omb : mb) {
-                if (otb != omb) return false;
-            }
-        }
-        return e;
     }
 
     public boolean equalsArr(byte[] bytes) {

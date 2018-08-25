@@ -19,34 +19,36 @@ public enum PrivilegeType {
         this.typeId = typeId;
     }
 
-    public int getId() {
-        return this.typeId;
-    }
-    public static Set<PrivilegeType> getByTypes(int typesSum){
+    public static Set<PrivilegeType> getByTypes(int typesSum) {
         PrivilegeType[] types = PrivilegeType.values();
         Set<PrivilegeType> curTypes = null;
-        for(
+        for (
                 int oneTypeIdx = types.length - 1;
                 oneTypeIdx >= 0; oneTypeIdx--) {
             PrivilegeType oneType = types[oneTypeIdx];
-            if(typesSum < oneType.getId())
+            if (typesSum < oneType.getId())
                 continue;
-            if(curTypes == null)
+            if (curTypes == null)
                 curTypes = new HashSet<>(oneTypeIdx + 1, 1f);
             typesSum = typesSum - oneType.getId();
             curTypes.add(oneType);
-            if(typesSum == 0) break;
+            if (typesSum == 0) break;
         }
         return curTypes;
     }
-    public static short getByTypes(Set<PrivilegeType> privilegeTypes){
-        int types=0;
-        if (privilegeTypes!=null && privilegeTypes.size()!=0){
-            for (PrivilegeType privilegeType:privilegeTypes){
-                types=types+privilegeType.getId();
+
+    public static short getByTypes(Set<PrivilegeType> privilegeTypes) {
+        int types = 0;
+        if (privilegeTypes != null && privilegeTypes.size() != 0) {
+            for (PrivilegeType privilegeType : privilegeTypes) {
+                types = types + privilegeType.getId();
             }
         }
-        return (short)types;
+        return (short) types;
+    }
+
+    public int getId() {
+        return this.typeId;
     }
 
 }

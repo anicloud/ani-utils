@@ -8,7 +8,7 @@ import java.lang.reflect.ParameterizedType;
 
 public abstract class AniValue<P> {
 
-    protected final Class<P> valueType;
+    protected Class<P> valueType;
 
     public AniValue() {
         this.valueType = (Class<P>) ((ParameterizedType) getClass()
@@ -40,6 +40,7 @@ public abstract class AniValue<P> {
 
         public AniValueException(Errors dataEmpty) {
             super();
+            this.error = dataEmpty;
         }
 
         public AniValueException(Errors error, AniValue value) {
