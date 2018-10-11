@@ -85,9 +85,6 @@ public abstract class AniMeta implements Serializable {
     }
 
     public void checkMetaParamsValue(AniMetaValue metaValue) throws AniRuleException, AniValue.AniValueException {
-        if (metaValue.meta == null || metaValue.meta.getLongId() != this.getLongId()) {
-            throw new AniRuleException("META_VALUE_ID_NOT_MATCH");
-        }
         if (metaValue == null || metaValue.paramsValue == null) {
             throw new AniRuleException("META_VALUE_REQUIRED");
         }

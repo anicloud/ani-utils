@@ -4,7 +4,6 @@ import com.ani.utils.exception.AniDataException;
 import com.ani.utils.exception.AniRuleException;
 
 import javax.cache.Cache;
-import javax.transaction.TransactionManager;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -26,10 +25,6 @@ public abstract class AniCache<K, V> {
 
     private void setCacheFactory() throws AniDataException {
         cacheFactory = new LocalCacheFactory();
-    }
-
-    protected TransactionManager getTx() throws AniDataException {
-        return this.getCacheFactory().getTxMgr();
     }
 
     private void setKVClasses() {
@@ -66,5 +61,4 @@ public abstract class AniCache<K, V> {
         this.setCacheFactory();
         this.setCache(alias);
     }
-
 }

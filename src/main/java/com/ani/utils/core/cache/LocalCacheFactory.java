@@ -13,11 +13,10 @@ import java.net.URISyntaxException;
 public class LocalCacheFactory {
 
     private static volatile TransactionManager txMgr;
-    private CacheManager cacheManager;
+    private static volatile CacheManager cacheManager;
 
     public LocalCacheFactory() throws AniDataException {
-        this.cacheManager = obtainCacheManager();
-        this.initTxMgr();
+        this.initCacheMgr();
     }
 
     public TransactionManager getTxMgr() {
@@ -30,6 +29,14 @@ public class LocalCacheFactory {
             return;
         synchronized (this) {
             txMgr = TransactionManagerServices.getTransactionManager();
+        }
+    }
+
+    private void initCacheMgr() throws AniDataException {
+        if(cacheManager != null)
+            return;
+        synchronized (this) {
+            cacheManager = this.obtainCacheManager();
         }
     }
 
