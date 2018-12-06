@@ -8,6 +8,7 @@ import java.io.Serializable;
 public abstract class AniResponseDto implements Serializable {
 
     private static final long serialVersionUID = -8202218827778429104L;
+
     Boolean success;
 
     public static long getSerialVersionUID() {

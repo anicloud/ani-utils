@@ -8,6 +8,7 @@ import java.util.Set;
 /**
  * Created by yeh on 15-9-26.
  */
+@Deprecated
 public class AniCacheUtils {
 
     public static String getRedisKey(String... parts) {

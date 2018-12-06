@@ -1,5 +1,8 @@
 package com.ani.utils.dto.response;
 
+import com.ani.utils.exception.AniBaseException;
+import com.ani.utils.exception.AniRuleException;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +21,11 @@ public class AniErrResDto extends AniResponseDto implements Serializable {
     public AniErrResDto(String errMsg) {
         this.success = false;
         this.message = errMsg;
+    }
+
+    public AniErrResDto(AniBaseException e) {
+        this.success = false;
+        this.message = e.getMessage();
     }
 
     public String getMessage() {

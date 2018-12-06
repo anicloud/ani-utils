@@ -22,7 +22,7 @@ public class AniDataType implements Serializable {
         return category;
     }
 
-    public void setCategory(AniDataTypeCategories category) {
+    public void ssetCategory(AniDataTypeCategories category) {
         this.category = category;
     }
 

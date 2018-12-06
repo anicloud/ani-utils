@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * Created by yeh on 15-11-28.
  */
+@Deprecated
 public class AniByte implements Serializable {
 
     byte[] bytes = null;

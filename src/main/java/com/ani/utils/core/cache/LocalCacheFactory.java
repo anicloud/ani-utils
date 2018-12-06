@@ -2,30 +2,29 @@ package com.ani.utils.core.cache;
 
 import bitronix.tm.TransactionManagerServices;
 import com.ani.utils.exception.AniDataException;
+import com.ani.utils.exception.AniRuleException;
 
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
 import javax.cache.spi.CachingProvider;
-import javax.transaction.TransactionManager;
 import java.net.URISyntaxException;
 
-public class LocalCacheFactory {
+public class LocalCacheFactory extends CacheFactory {
 
-    private static volatile TransactionManager txMgr;
-    private CacheManager cacheManager;
+    protected static volatile CacheManager cacheManager;
 
     public LocalCacheFactory() throws AniDataException {
-        this.cacheManager = obtainCacheManager();
-        this.initTxMgr();
+        super();
+        this.initCacheMgr();
     }
 
-    public TransactionManager getTxMgr() {
-        initTxMgr();
-        return txMgr;
+    public LocalCacheFactory(String cacheConfigPath) throws AniDataException, AniRuleException {
+        super(cacheConfigPath);
+        this.initCacheMgr();
     }
 
-    private void initTxMgr() {
+    protected void initTxMgr() {
         if (txMgr != null)
             return;
         synchronized (this) {
@@ -33,13 +32,26 @@ public class LocalCacheFactory {
         }
     }
 
-    private CacheManager obtainCacheManager() throws AniDataException {
+    private void initCacheMgr() throws AniDataException {
+        if (cacheManager != null) {
+            return;
+        }
+         synchronized (this) {
+            cacheManager = this.obtainCacheManager();
+        }
+    }
+
+    public <K, V> Cache<K, V> getCache(String alias, Class<K> keyClass, Class<V> vClass) {
+        return this.cacheManager.getCache(alias, keyClass, vClass);
+    }
+
+    protected CacheManager obtainCacheManager() throws AniDataException {
         CachingProvider cachingProvider = Caching.getCachingProvider();
         CacheManager manager = null;
         try {
             manager = cachingProvider.getCacheManager(
                     getClass()
-                            .getResource("/cache/ehcache.xml")
+                            .getResource(cacheConfigPath)
                             .toURI(),
                     getClass().getClassLoader());
         } catch (URISyntaxException e) {
@@ -47,10 +59,6 @@ public class LocalCacheFactory {
             throw new AniDataException(e.getMessage());
         }
         return manager;
-    }
-
-    public <K, V> Cache<K, V> getCache(String alias, Class<K> keyClass, Class<V> vClass) {
-        return this.cacheManager.getCache(alias, keyClass, vClass);
     }
 
 }

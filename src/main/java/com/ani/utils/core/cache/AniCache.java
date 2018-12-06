@@ -39,8 +39,9 @@ public abstract class AniCache<K, V> {
     }
 
     private LocalCacheFactory getCacheFactory() throws AniDataException {
-        if (this.cacheFactory == null)
+        if (this.cacheFactory == null) {
             this.setCacheFactory();
+        }
         return cacheFactory;
     }
 

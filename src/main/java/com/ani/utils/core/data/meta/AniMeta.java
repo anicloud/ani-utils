@@ -10,17 +10,17 @@ import java.util.List;
 public abstract class AniMeta implements Serializable {
 
     private static final long serialVersionUID = 8670038946985933832L;
-    private AniMetaGroup group;
-    private Integer id;
-    private String name;
-    private List<AniMetaParam> params;
+    Integer groupId;
+    Integer id;
+    String name;
+    List<AniMetaParam> params;
     private Long longId = null;
 
     public AniMeta() {
     }
 
-    public AniMeta(AniMetaGroup group, Integer id, String name, List<AniMetaParam> params) {
-        this.group = group;
+    public AniMeta(Integer groupId, Integer id, String name, List<AniMetaParam> params) {
+        this.groupId = groupId;
         this.id = id;
         this.name = name;
         this.params = params;
@@ -32,12 +32,12 @@ public abstract class AniMeta implements Serializable {
         return AniGeneralUtils.combineIntToLong(groupId, id);
     }
 
-    public AniMetaGroup getGroup() {
-        return group;
+    public Integer getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(AniMetaGroup group) {
-        this.group = group;
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public Integer getId() {
@@ -65,10 +65,8 @@ public abstract class AniMeta implements Serializable {
     }
 
     public Long getLongId() throws AniRuleException {
-        if (this.group == null || this.group.getGroupId() == null)
-            throw new AniRuleException("META_GROUP_UNINITIALIZED");
         if (this.longId == null)
-            this.longId = AniMeta.getLongId(this.group.getGroupId(), this.id);
+            this.longId = AniMeta.getLongId(this.groupId, this.id);
         return this.longId;
     }
 
@@ -85,7 +83,7 @@ public abstract class AniMeta implements Serializable {
     }
 
     public void checkMetaParamsValue(AniMetaValue metaValue) throws AniRuleException, AniValue.AniValueException {
-        if (metaValue.meta == null || metaValue.meta.getLongId() != this.getLongId()) {
+        if (metaValue.metaLongId == null || metaValue.metaLongId != this.getLongId()) {
             throw new AniRuleException("META_VALUE_ID_NOT_MATCH");
         }
         if (metaValue == null || metaValue.paramsValue == null) {
@@ -122,12 +120,7 @@ public abstract class AniMeta implements Serializable {
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof AniMeta))
             return false;
-        if (this.group == null || this.group.getGroupId() == null)
-            return false;
         AniMeta objModel = (AniMeta) obj;
-        if (objModel.group == null || objModel.getGroup() == null)
-            return false;
-        return (this.id == objModel.id)
-                && (this.group.equals(objModel.getGroup()));
+        return this.id == objModel.id;
     }
 }
